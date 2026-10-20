@@ -1,0 +1,17 @@
+{
+  "name": "@elmsford/content",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./names": "./src/names.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@elmsford/core": "workspace:*"
+  }
+}

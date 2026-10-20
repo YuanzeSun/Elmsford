@@ -1,0 +1,16 @@
+{
+  "name": "Elmsford",
+  "short_name": "Elmsford",
+  "description": "一座只用文字存在的中世纪小村，和你过着同一天。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4efe4",
+  "theme_color": "#f4efe4",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

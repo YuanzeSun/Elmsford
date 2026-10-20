@@ -1,0 +1,980 @@
+/* One look for every page — the village, settings and the dev tools: serif type, the
+   time-of-day palette, thin rules, words for buttons. */
+
+:root {
+  --serif: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  transition:
+    background 2s ease,
+    color 2s ease;
+}
+
+body[data-palette="dawn"] { --bg: #ece6dc; --ink: #3a332c; --dim: #8a7f72; --accent: #a0704a; --warn: #9a4a3a; }
+body[data-palette="day"], body:not([data-palette]) { --bg: #f4efe4; --ink: #2b2620; --dim: #8b8172; --accent: #7a5a32; --warn: #9a4a3a; }
+body[data-palette="dusk"] { --bg: #e5d6c0; --ink: #3b2c1e; --dim: #8c7558; --accent: #9b5a2a; --warn: #92402e; }
+body[data-palette="night"] { --bg: #1f2430; --ink: #d8d2c4; --dim: #7d8090; --accent: #c9a96e; --warn: #d0907e; }
+body[data-palette="deep"] { --bg: #121419; --ink: #b9b4a8; --dim: #62646e; --accent: #a88d5c; --warn: #b9806f; }
+
+body {
+  --line: color-mix(in srgb, var(--ink) 14%, transparent);
+  --panel: color-mix(in srgb, var(--ink) 4%, var(--bg));
+}
+body[data-palette="night"],
+body[data-palette="deep"] {
+  --line: color-mix(in srgb, var(--ink) 18%, transparent);
+  --panel: color-mix(in srgb, var(--ink) 6%, var(--bg));
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.loading {
+  font-family: var(--serif);
+  color: var(--dim);
+  text-align: center;
+  margin-top: 30vh;
+}
+
+.dim {
+  color: var(--dim);
+}
+
+.error {
+  color: var(--warn);
+}
+
+/* ---------- page ---------- */
+
+.page {
+  font-family: var(--serif);
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: calc(2.5rem + env(safe-area-inset-top)) calc(1.25rem + env(safe-area-inset-right)) calc(4rem + env(safe-area-inset-bottom))
+    calc(1.25rem + env(safe-area-inset-left));
+  line-height: 1.9;
+  font-size: 17px;
+}
+
+.page.wide {
+  max-width: 44rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2.2rem;
+}
+
+.village-name {
+  letter-spacing: 0.35em;
+  color: var(--dim);
+  font-size: 0.85rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.page button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.1rem 0.8rem;
+  cursor: pointer;
+}
+
+.page button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.page button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.page button.quiet,
+.tabs button,
+.page button.link,
+.page button.exit {
+  border-color: transparent;
+  padding: 0 0.3rem;
+  color: var(--accent);
+}
+
+.page button.link {
+  padding: 0;
+}
+
+.tabs button {
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+
+.tabs button.on {
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+}
+
+.headline {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  margin: 0 0 0.8rem;
+}
+
+.meta {
+  color: var(--dim);
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.body {
+  margin-top: 2.5rem;
+}
+
+.place-name {
+  font-size: 0.9rem;
+  font-weight: normal;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+  margin: 0 0 0.6rem;
+}
+
+.scene {
+  margin: 0 0 1.2rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.note {
+  margin: 0.8rem 0;
+  color: var(--accent);
+}
+
+/* fields: a line to write on, not a box */
+
+.page textarea,
+.page input:not([type]),
+.page input[type="text"],
+.page input[type="number"],
+.page input[type="datetime-local"] {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0.2rem 0;
+  outline: none;
+}
+
+.page textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  background: var(--panel);
+  border: none;
+  padding: 0.6rem 0.8rem;
+}
+
+.page textarea:focus,
+.page input:focus {
+  border-bottom-color: var(--accent);
+}
+
+.page input[type="number"] {
+  width: 3em;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.page input[type="number"]::-webkit-inner-spin-button,
+.page input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.page input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+/* ---------- village ---------- */
+
+.people {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+}
+
+.people li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.6rem;
+  align-items: baseline;
+  padding: 0.15rem 0;
+}
+
+.people .who {
+  font-weight: 600;
+}
+
+.people li.seeking .who {
+  color: var(--accent);
+}
+
+.people .doing {
+  color: var(--dim);
+  flex: 1 1 12rem;
+}
+
+.overheard {
+  border-left: 2px solid var(--line);
+  padding-left: 0.9rem;
+  margin: 0 0 1.4rem;
+}
+
+.overheard p {
+  margin: 0 0 0.3rem;
+}
+
+.speaker {
+  color: var(--dim);
+  margin-right: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.speaker::after {
+  content: "：";
+}
+
+.items {
+  margin: 0.8rem 0;
+}
+
+.exits {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.4rem;
+  align-items: baseline;
+}
+
+.page button.exit {
+  padding: 0;
+  margin-right: 0.8rem;
+}
+
+/* conversation */
+
+.conversation {
+  margin: 1.2rem 0;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+
+.lines {
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.line {
+  margin: 0 0 0.9rem;
+}
+
+.line.player {
+  color: var(--dim);
+}
+
+.line.action,
+.line.scene,
+.line.ended,
+.line.pending {
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+.line.action {
+  font-style: italic;
+}
+
+.line.system {
+  color: var(--warn);
+  font-size: 0.92rem;
+}
+
+.gesture {
+  color: var(--dim);
+}
+
+.reading {
+  margin: 1rem 0;
+}
+
+/* desk */
+
+.doc {
+  border-top: 1px solid var(--line);
+  padding: 0.7rem 0;
+}
+
+.doc header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 1rem;
+  cursor: pointer;
+}
+
+.doc-title {
+  font-weight: 600;
+}
+
+.doc h4 {
+  font-weight: normal;
+  color: var(--dim);
+  font-size: 0.9rem;
+  margin: 1rem 0 0.3rem;
+}
+
+.doc pre {
+  font-family: var(--serif);
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: 1.9;
+}
+
+.doc pre.spoken {
+  color: var(--dim);
+}
+
+.doc pre.letter {
+  padding: 0.8rem 1rem;
+  background: var(--panel);
+}
+
+.gist {
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+/* notebook */
+
+.person {
+  border-top: 1px solid var(--line);
+  padding: 0.7rem 0;
+}
+
+.person h3 {
+  font-size: 1rem;
+  margin: 0 0 0.3rem;
+}
+
+.person ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.person li.mine {
+  color: var(--accent);
+}
+
+.person input {
+  width: 100%;
+}
+
+/* 这几天 */
+
+.recap {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.recap-inner {
+  max-width: 32rem;
+  padding: 2rem 1.5rem;
+}
+
+.recap h2 {
+  font-weight: normal;
+  letter-spacing: 0.4em;
+  color: var(--dim);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+/* toasts */
+
+.toasts {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(32rem, calc(100% - 2rem));
+  z-index: 5;
+}
+
+.toast {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.5rem 0.9rem;
+  border-radius: 3px;
+  margin: 0.4rem 0 0;
+  font-size: 0.92rem;
+}
+
+.village-footer {
+  margin-top: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  font-size: 0.78rem;
+  color: var(--dim);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-links a,
+.footer-links button.link {
+  color: var(--dim);
+}
+
+.footer-links a:hover,
+.footer-links button.link:hover:not(:disabled) {
+  color: var(--accent);
+}
+
+.fake-clock {
+  color: var(--accent);
+}
+
+/* ---------- settings & dev ---------- */
+
+.section {
+  margin: 0 0 2.8rem;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+/* label on the left, the thing itself on the right */
+.rows {
+  margin: 0;
+}
+
+.rows > div {
+  display: grid;
+  grid-template-columns: 5em 1fr;
+  gap: 0 1rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rows > div:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.rows dt {
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+.rows dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.page button.value {
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+/* choosing one thing out of many: words, the chosen one underlined */
+.choices {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.92rem;
+}
+
+.choices .group {
+  color: var(--dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  margin: 0.6rem 0 0.1rem;
+}
+
+.choices .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+}
+
+.page .choices button,
+.page .inline-choices button {
+  border: none;
+  padding: 0;
+  color: var(--dim);
+}
+
+.page .choices button.on,
+.page .inline-choices button.on {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.inline-choices {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0 0.9rem;
+}
+
+/* a quiet ledger for numbers: thin rules, aligned figures */
+.ledger {
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ledger > div:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.ledger .grow {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.ledger .num {
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.ledger .clickable {
+  cursor: pointer;
+}
+
+.ledger .clickable:hover {
+  color: var(--accent);
+}
+
+.ledger .flagged {
+  color: var(--warn);
+}
+
+.page pre.data {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  background: var(--panel);
+  padding: 0.8rem 1rem;
+  margin: 0.3rem 0 0.6rem;
+  overflow: auto;
+  max-height: 28rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.page details summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.2rem 0;
+}
+
+.page details summary::-webkit-details-marker {
+  display: none;
+}
+
+.page details[open] summary {
+  color: var(--accent);
+}
+
+@media (max-width: 520px) {
+  .page {
+    padding-top: calc(1.5rem + env(safe-area-inset-top));
+    font-size: 16px;
+  }
+  /* 16px fields stop iOS from zooming in on focus. */
+  .page textarea,
+  .page input {
+    font-size: 16px;
+  }
+  .headline {
+    font-size: 1.2rem;
+  }
+  .lines {
+    max-height: 50vh;
+  }
+  .rows > div {
+    grid-template-columns: 4em 1fr;
+  }
+}
+
+/* crossing out a line you wrote yourself */
+.page button.strike {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  color: var(--dim);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.person li:hover button.strike,
+.page button.strike:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .page button.strike {
+    opacity: 1;
+  }
+}
+
+.intro .hint {
+  margin: 1.6rem 0 1.4rem;
+}
+
+.intro .modes {
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.intro .modes .scene {
+  margin-top: 0.6rem;
+}
+
+/* story mode: resting, after the ways out */
+.rest {
+  margin-top: 1.2rem;
+}
+
+/* the map: every character one square cell, so a drawing lines up in any font */
+.map {
+  margin-top: 2.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-family: ui-monospace, "SF Mono", Menlo, "Songti SC", "STSong", "Noto Serif SC", serif;
+  /* 40 cells across the page, or fewer on a phone without scrolling */
+  font-size: min(16px, calc((min(100vw, 44rem) - 2.5rem) / 40));
+  line-height: 1.35;
+  color: var(--dim);
+  user-select: none;
+  overflow-x: auto;
+}
+
+.map .r {
+  white-space: nowrap;
+  height: 1.35em;
+}
+
+.map .c {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+}
+
+.map .water {
+  color: color-mix(in srgb, var(--accent) 45%, var(--dim));
+}
+
+.map .wood,
+.map .field {
+  color: color-mix(in srgb, var(--dim) 75%, transparent);
+}
+
+.map .lbl {
+  font-family: var(--serif);
+  color: var(--ink);
+}
+
+.map .here .lbl {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.page .map button.near {
+  border: none;
+  padding: 0;
+  font: inherit;
+  display: inline;
+  cursor: pointer;
+}
+
+.page .map button.near:hover .lbl {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.leave {
+  margin-top: 4rem;
+}
+
+.page .leave button.quiet {
+  padding-left: 0;
+  margin-right: 0.8rem;
+  color: var(--dim);
+}
+
+.page .leave button.quiet:hover {
+  color: var(--warn);
+}
+
+/* a name you've been told about: barely marked, until you look */
+.page .headline button.heard {
+  font: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  border-bottom: 1px dotted var(--dim);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.page .headline button.heard:hover,
+.page .headline button.heard.on {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.heard-lines {
+  margin: -0.2rem 0 1rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--line);
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+.heard-lines p {
+  margin: 0 0 0.2rem;
+}
+
+.notebook .days {
+  margin-top: 2.4rem;
+}
+
+/* "……" that breathes */
+.dots span {
+  animation: dots-breathe 1.4s ease-in-out infinite;
+  opacity: 0.25;
+}
+
+.dots span + span {
+  animation-delay: 0.35s;
+}
+
+@keyframes dots-breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots span {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* settings: entries that lead one level down */
+.menu a {
+  display: grid;
+  grid-template-columns: 5em 1fr auto;
+  gap: 0 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.menu a:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.menu a:hover {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+/* a heading that folds what's under it */
+.fold {
+  margin: 0 0 1.4rem;
+}
+
+.page button.fold-head {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  width: 100%;
+  border: none;
+  padding: 0.2rem 0;
+  text-align: left;
+}
+
+.fold-head .place-name {
+  margin: 0;
+}
+
+.fold.open > .fold-head .place-name,
+.page button.fold-head:hover .place-name {
+  color: var(--ink);
+}
+
+.fold-body {
+  margin-top: 0.4rem;
+}
+
+/* one thing in a list, opening to its details */
+.page details.item {
+  border-bottom: 1px solid var(--line);
+}
+
+.fold-body > details.item:first-of-type,
+.fold-body > .meta + details.item {
+  border-top: 1px solid var(--line);
+}
+
+.page details.item > summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.8rem;
+  align-items: baseline;
+  padding: 0.35rem 0;
+}
+
+.page details.item > summary .who {
+  font-weight: 600;
+}
+
+.page details.item > summary .num {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.page details.item > summary .grow-right {
+  margin-left: auto;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-body {
+  padding: 0.2rem 0 0.9rem 1em;
+  font-size: 0.92rem;
+}
+
+.item-body p {
+  margin: 0 0 0.3rem;
+}
+
+.item-body h4 {
+  font-weight: normal;
+  color: var(--dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  margin: 0.9rem 0 0.2rem;
+}
+
+.item-body ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+ul.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.plain li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+ul.plain li:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.page pre.text {
+  font-family: var(--serif);
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  background: var(--panel);
+  line-height: 1.8;
+}
+
+.key-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: baseline;
+}
+
+.page .key-row input[type="password"] {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.1rem 0;
+  width: 16em;
+  outline: none;
+}
+
+.page .key-row input[type="password"]:focus {
+  border-bottom-color: var(--accent);
+}
